@@ -2,27 +2,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { sendOtpRequest } from "../redux/slices/sendOtpSlice";
+
 
 const Login: React.FC = () => {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpVisible, setIsOtpVisible] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const sendOtop = async () => {
-    try{
-      const response  = await axios.post("http://localhost:5000/api/auth/send-otp", { phone })
-      console.log("OTP send response:", response);
-      if(response.status === 200){
-        alert("OTP sent successfully");
-        setIsOtpVisible(true);
-      }
-    
-
-    }catch(error){
-      console.error("Error sending OTP:", error);
-      alert("Failed to send OTP. Please try again.");
-    }
+  const handleSendOtp = () => {
+    dispatch(sendOtpRequest({ phone }));
   };
 
    const handleVerifyOtp = async () => {
@@ -57,7 +49,7 @@ const Login: React.FC = () => {
               className="w-full border p-3 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button
-              onClick={sendOtop}
+              onClick={handleSendOtp}
               className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-all"
             >
               Send Otp

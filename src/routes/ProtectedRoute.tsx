@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
-    const token = Cookies.get("token")
+    const token = localStorage.getItem('token');
     console.log("ProtectedRoute token:", token);
 
     if(!token){

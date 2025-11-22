@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true; // ✅ ensures cookies are included globa
 
 export const sendOtpApi = async (phone: string) => {
   const response = await axios.post(
-    "http://localhost:5000/api/auth/send-otp",
+    "https://mobile-recharge-backend-11.onrender.com/api/auth/send-otp",
     { phone },
  // ✅ for this specific call (optional if using global default)
   );
@@ -14,9 +14,20 @@ export const sendOtpApi = async (phone: string) => {
 
 export const verifyOtpApi = async (phone: string, otp: string) => {
   const response = await axios.post(
-    "http://localhost:5000/api/auth/verify-otp",
+    "https://mobile-recharge-backend-11.onrender.com/api/auth/verify-otp",
     { phone, otp },
  // ✅ very important
   );
   return response;
 };
+
+export const createBookingApi = async (data: any) => {
+
+  const response = await axios.post(
+    "https://mobile-recharge-backend-11.onrender.com/api/auth/create-booking",
+    data
+  )
+  return response.data;
+
+}
+

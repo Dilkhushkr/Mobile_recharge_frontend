@@ -1,41 +1,49 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { creatingBookingRequest } from "../redux/slices/createBookingSlice";
 
-export default function Dashboard() {
+const Dashboard: React.FC = () => {
   const cars = [
     {
       id: 1,
       name: "Swift Desire",
-      image: "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
+      image: "https://www.elightcabs.com/wp-content/uploads/2021/06/swift-automatic-rent-a-car-in-trivandrum.jpg",
     },
     {
       id: 2,
       name: "Hyundai i20",
-      image: "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
+      image: "https://stimg.cardekho.com/images/carexteriorimages/930x620/Hyundai/i20-N-Line/10285/1755864612287/front-left-side-47.jpg",
     },
     {
       id: 3,
-      name: "Honda City",
-      image: "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
+      name: "Hyundai Verna",
+      image: "https://img.autocarindia.com/mmv_images/colors/20250826012232_Hyundai_Verna_Atlas%20White_Dual_Tone.jpg?w=728&q=75",
     },
     {
       id: 4,
-      name: "Tata Nexon",
-      image: "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
+      name: "Ertiga ",
+      image: "https://htcms-prod-images.s3.ap-south-1.amazonaws.com/htmobile1/marutisuzuki_ertiga/images/colour_marutisuzuki-ertiga_pearl-metallic-arctic-white_600x400.jpg",
     },
     {
       id: 5,
-      name: "Toyota Fortuner",
-      image: "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg",
+      name: "scorpio",
+      image: "https://auto.economictimes.indiatimes.com/files/retail_files/scorpio-1504269094-prod-var.jpg",
     },
     {
       id: 6,
-      name: "Maruti Baleno",
-      image: "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
+      name: "Book any car",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBu3xbv2JsrWIf1EZNMfIEEzbQLcUvuSsZjQ&s",
     },
   ];
 
-  const [selectedCar, setSelectedCar] = useState(null);
+  const dispatch = useDispatch<any>();
+  
+  const [selectedCar, setSelectedCar] = useState<{
+    id: number;
+    name: string;
+    image: string;
+  } | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -44,20 +52,58 @@ export default function Dashboard() {
     bookingDate: ""
   });
 
-  const handleChange = (e) => {
+
+
+  console.log("from data is :",formData)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!selectedCar) {
+      // nothing selected, don't submit
+      console.warn("No car selected for booking");
+      return;
+    }
+
+    dispatch(
+      creatingBookingRequest({
+        name: formData.name,
+        phone: formData.phone,
+        startingLocation: formData.start,
+        endLocation: formData.end,
+        date: formData.bookingDate,
+      })
+    );
+
     alert(`Booking Confirmed for ${selectedCar.name}!`);
     setSelectedCar(null);
-    setFormData({ name: "", phone: "", start: "", end: "" ,bookingDate: ""});
+    setFormData({ name: "", phone: "", start: "", end: "", bookingDate: "" });
+
+    console.log("submitted data is :", formData);
+  };
+
+
+   const handleLogout = async () => {
+    await fetch("https://mobile-recharge-backend-11.onrender.com/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">
-      <motion.h1
+      <div className="fixed top-4 right-4 z-50">
+        <button
+      className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-full shadow-lg transition-transform transform hover:scale-105 active:scale-95"
+    >
+      Logout
+    </button>
+      </div>
+        <motion.h1
         className="text-4xl font-bold text-center mb-10"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -65,7 +111,8 @@ export default function Dashboard() {
       >
         🚗 Car Rental Dashboard
       </motion.h1>
-
+      
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {cars.map((car, index) => (
           <motion.div
@@ -85,7 +132,10 @@ export default function Dashboard() {
                   {car.name}
                 </h2>
                 <button
-                  onClick={() => setSelectedCar(car)}
+                  onClick={() => {
+                    setSelectedCar(car);
+                    setFormData((prev) => ({ ...prev, name: car.name }));
+                  }}
                   className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-full px-6 py-2 transition-all"
                 >
                   Book Now
@@ -161,7 +211,10 @@ export default function Dashboard() {
               <div className="flex justify-between mt-4">
                 <button
                   type="button"
-                  onClick={() => setSelectedCar(null)}
+                  onClick={() => {
+                    setSelectedCar(null);
+                    setFormData((prev) => ({ ...prev, name: "" }));
+                  }}
                   className="bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-full px-6 py-2"
                 >
                   Cancel
@@ -181,3 +234,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;

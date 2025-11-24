@@ -18,7 +18,7 @@ const createBookingSlice = createSlice({
     initialState,
     reducers : {
         
-        creatingBookingRequest : (state,action)=>{
+        creatingBookingRequest : (state,_action)=>{
             state.loading = true;
             state.error = null;
             state.booking = null;

@@ -18,7 +18,8 @@ export const verifyOtpApi = async (phone: string, otp: string) => {
     { phone, otp },
  // ✅ very important
   );
-  return response;
+  // normalize to return the response payload (consistent with other service helpers)
+  return response.data;
 };
 
 export const createBookingApi = async (data: any) => {

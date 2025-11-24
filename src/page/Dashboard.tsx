@@ -87,12 +87,12 @@ const Dashboard: React.FC = () => {
   };
 
 
-   const handleLogout = async () => {
-    await fetch("https://mobile-recharge-backend-11.onrender.com/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-  };
+  //  const handleLogout = async () => {
+  //   await fetch("https://mobile-recharge-backend-11.onrender.com/api/auth/logout", {
+  //     method: "POST",
+  //     credentials: "include",
+  //   });
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">

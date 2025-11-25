@@ -32,3 +32,18 @@ export const createBookingApi = async (data: any) => {
 
 }
 
+export const signupApi = async (data : any) => {
+
+  const response = await axios.post(
+    "https://mobile-recharge-backend-11.onrender.com/api/auth/signup",
+    data
+  ) 
+  return response.data;
+
+}
+
+
+
+
+
+

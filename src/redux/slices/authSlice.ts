@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 
 interface SignupPayload {
-    name : string;
-    phone : string;
-    password : string;
+    name: string;
+    email: string;
+    password: string;
 }
 
 interface AuthState {
-    loading : boolean;
-    error : string | null;
+    loading: boolean;
+    error: string | null;
     signupData?: SignupPayload | null;
 
 }
@@ -28,7 +28,7 @@ const authSlice = createSlice({
     initialState,
     reducers:{
 
-        signupRequest : (state)=>{
+        signupRequest : (state, _action: PayloadAction<SignupPayload>)=>{
             state.loading = true;
             state.error = null;
         },

@@ -42,6 +42,12 @@ export const signupApi = async (data : any) => {
 
 }
 
+export const LoginApi = async (data : any) => {
+  const response = await axios.post("https://mobile-recharge-backend-11.onrender.com/api/auth/login",data)
+  return response.data;
+}
+
+
 
 
 

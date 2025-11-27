@@ -1,134 +1,100 @@
-// src/components/OtpAuthForm.tsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendOtpRequest } from "../redux/slices/sendOtpSlice";
-import { verifyOtpRequest } from "../redux/slices/verfiyOtpSlice";
-import type { RootState } from "../redux/store/rootReducer";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { loginRequest } from "../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import type { RootState } from "../redux/store/rootReducer";
 
-const OtpAuthForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [showOtpBox, setShowOtpBox] = useState(false);
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
-  const { loading: sendLoading, success: sendSuccess, error: sendError } = useSelector(
-    (state: RootState) => state.sendOtp
-  );
-  const { loading: verifyLoading, success: verifySuccess, error: verifyError } = useSelector(
-    (state: RootState) => state.verifyOtp
+  const { loading, error, user } = useSelector(
+    (state: RootState) => state.auth
   );
 
-  useEffect(() => {
-    if (sendSuccess) {
-      setShowOtpBox(true);
-    }
-  }, [sendSuccess]);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
 
-  useEffect(() => {
-    if (verifySuccess) {
-      navigate("/dashboard");
-    }
-  }, [verifySuccess, navigate]);
-
-  const handleSendOtp = () => {
-    if (!phone || phone.length < 10) {
-      alert("Please enter a valid phone number");
-      return;
-    }
-    dispatch(sendOtpRequest({ phone }));
+    const payload = {  email,password };
+    dispatch(loginRequest(payload));
   };
 
-  const handleVerifyOtp = () => {
-    if (!otp) {
-      alert("Please enter OTP");
-      return;
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard"); 
     }
-    dispatch(verifyOtpRequest({ phone, otp }));
-  };
+  }, [user]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+    <div className="min-h-screen flex items-center justify-center bg-black p-6">
       <motion.div
-        className="bg-gray-900 border border-yellow-500 rounded-2xl p-8 w-[90%] max-w-md shadow-2xl"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.5 }}
+        className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-700"
       >
-        <h2 className="text-3xl font-bold text-center text-yellow-400 mb-6">
-          🔐 Mobile Authentication
+        <h2 className="text-3xl font-bold text-center text-white mb-6">
+          Login
         </h2>
 
-        {!showOtpBox ? (
-          <>
-            {/* Phone Input */}
-            <label className="block text-gray-300 font-medium mb-2">
-              Enter your Phone Number
-            </label>
+        <form onSubmit={handleSubmit}>
+          {/* Name Field */}
+         
+
+          {/* Email Field */}
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-1">Email</label>
             <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="e.g. 9876543210"
-              className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-700 rounded-lg focus:border-yellow-500 outline-none mb-4 transition-all"
+              type="email"
+              className="w-full px-4 py-2 rounded bg-gray-800 text-white outline-none border border-gray-700 focus:border-blue-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
+          </div>
 
-            <button
-              onClick={handleSendOtp}
-              disabled={sendLoading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-2.5 rounded-full font-semibold transition-all"
-            >
-              {sendLoading ? "Sending OTP..." : "Send OTP"}
-            </button>
 
-            {sendError && (
-              <p className="text-red-400 text-sm mt-3 text-center">{sendError}</p>
-            )}
-          </>
-        ) : (
-          <>
-            {/* OTP Input */}
-            <label className="block text-gray-300 font-medium mb-2">
-              Enter the OTP sent to {phone}
-            </label>
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              placeholder="Enter OTP"
-              className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-700 rounded-lg focus:border-yellow-500 outline-none mb-4 text-center tracking-widest transition-all"
-            />
+           <div className="mb-4">
+            <label className="block text-gray-300 mb-1">password</label>
+            <input 
+            type="password"
+            className="w-full px-4 py-2 rounded bg-gray-800 text-white outline-none border border-gray-700 focus:border-blue-500"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+             />
+          </div>
 
-            <button
-              onClick={handleVerifyOtp}
-              disabled={verifyLoading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-2.5 rounded-full font-semibold transition-all"
-            >
-              {verifyLoading ? "Verifying..." : "Verify OTP"}
-            </button>
+          {/* Error Message */}
+          {error && (
+            <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
+          )}
 
-            {verifyError && (
-              <p className="text-red-400 text-sm mt-3 text-center">{verifyError}</p>
-            )}
-            {verifySuccess && (
-              <p className="text-green-400 text-sm mt-3 text-center font-semibold">
-                ✅ OTP Verified Successfully!
-              </p>
-            )}
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded mt-4"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
 
-            <button
-              onClick={() => setShowOtpBox(false)}
-              className="mt-5 w-full bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-full font-medium transition-all"
-            >
-              Resend OTP
-            </button>
-          </>
-        )}
+        <p className="text-gray-400 text-sm text-center mt-4">
+          Don’t have an account?{" "}
+          <span
+            className="text-blue-500 cursor-pointer"
+            onClick={() => navigate("/signup")}
+          >
+            Sign Up
+          </span>
+        </p>
       </motion.div>
     </div>
   );
-};
+}
 
-export default OtpAuthForm;
+export default Login;

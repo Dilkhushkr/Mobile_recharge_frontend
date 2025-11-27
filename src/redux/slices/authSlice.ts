@@ -11,6 +11,7 @@ interface AuthState {
     loading: boolean;
     error: string | null;
     signupData?: SignupPayload | null;
+    user : any | null;
 
 }
 
@@ -19,6 +20,7 @@ const initialState : AuthState = {
     loading : false,
     error : null,
     signupData : null,
+    user : null
 }
 
 
@@ -40,15 +42,36 @@ const authSlice = createSlice({
         signupFailure : (state, action)=>{
             state.loading = false;
             state.error = action.payload;
+        },
+        loginRequest : (state, _action: PayloadAction<any>)=>{
+            state.loading = true;
+            state.error = null;
+            state.user = null;
+            
+        },
+        loginSuccess : (state, action:PayloadAction<any>)=>{
+            state.loading = false;
+            state.user = action.payload;
+            state.error = null;
+        },
+        loginFailure : (state, action:PayloadAction<string>)=>{
+            state.loading = false;
+            state.error = action.payload;
+            state.user = null;
         }
 
     }
 })
 
+
+
 export const {
     signupRequest,
     signupSuccess, 
-    signupFailure 
+    signupFailure,
+    loginRequest,
+    loginSuccess,
+    loginFailure,
  } = authSlice.actions;
 
 export default authSlice.reducer;

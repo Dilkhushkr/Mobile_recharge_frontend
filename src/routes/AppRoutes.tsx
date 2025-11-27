@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "../page/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Signup from "../page/Signup";
+import Login from "../page/Login";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Signup />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
        <Route
           path="/dashboard"
           element={<ProtectedRoute element={<Dashboard />} />}

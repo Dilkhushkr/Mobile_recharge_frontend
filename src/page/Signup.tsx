@@ -46,8 +46,8 @@ function Signup() {
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-<input
-type="text"
+        <input
+            type="text"
 placeholder="Full Name"
 className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
 value={name}

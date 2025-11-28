@@ -24,11 +24,13 @@ function Signup() {
         console.log('Signup payload:', payload);
         dispatch(signupRequest(payload));
         setName("");
+        setEmail("");
+        setPassword("");
     }
 
     useEffect(() => {
         if(signupData){
-            navigate("/login");
+            navigate("/");
         }
     },[signupData])
 

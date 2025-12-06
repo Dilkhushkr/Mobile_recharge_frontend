@@ -86,23 +86,23 @@ const Dashboard: React.FC = () => {
     console.log("submitted data is :", formData);
   };
 
+  const handleLogout = () => {
 
-  //  const handleLogout = async () => {
-  //   await fetch("https://mobile-recharge-backend-11.onrender.com/api/auth/logout", {
-  //     method: "POST",
-  //     credentials: "include",
-  //   });
-  // };
+    localStorage.removeItem('token');
+    window.location.href = '/';
+
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">
-      <div className="fixed top-4 right-4 z-50">
-        <button
-      className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-full shadow-lg transition-transform transform hover:scale-105 active:scale-95"
-    >
-      Logout
-    </button>
-      </div>
+      <div className="top-4 right-4 z-50">
+          <button
+          className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-full shadow-lg transition-transform transform hover:scale-105 active:scale-95"
+          onClick={handleLogout}
+          >
+          Logout
+          </button>
+       </div>
         <motion.h1
         className="text-4xl font-bold text-center mb-10"
         initial={{ opacity: 0, y: -30 }}

@@ -3,6 +3,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true; // ✅ ensures cookies are included globally
 
+
 export const sendOtpApi = async (phone: string) => {
   const response = await axios.post(
     "https://mobile-recharge-backend-11.onrender.com/api/auth/send-otp",
@@ -46,6 +47,21 @@ export const LoginApi = async (data : any) => {
   const response = await axios.post("https://mobile-recharge-backend-11.onrender.com/api/auth/login",data)
   return response.data;
 }
+
+export const fetchBooking = async () =>{
+
+  const data = await axios.get("https://mobile-recharge-backend-11.onrender.com/api/booking/get-bookings");
+  return data.data;
+
+}
+
+export const deleteBooking = async (id : any) => {
+  const {data} = await axios.post(`https://mobile-recharge-backend-11.onrender.com/api/auth/delete-booking/${id}`);
+  return data;
+}
+
+
+
 
 
 

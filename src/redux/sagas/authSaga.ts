@@ -26,7 +26,7 @@ function* signupSaga(action: ReturnType<typeof signupRequest>): Generator<any, v
 
 }
 
-function* loginSaga(action: ReturnType<typeof loginRequest>){
+function* loginSaga(action: ReturnType<typeof loginRequest>): Generator<any, void, any>{
 
     try{
  

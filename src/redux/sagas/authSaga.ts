@@ -40,7 +40,7 @@ function* loginSaga(action: ReturnType<typeof loginRequest>): Generator<any, voi
         if (token) {
             localStorage.setItem("token", token);
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        console.log("Login token stored and axios header set");
+            console.log("Login token stored and axios header set");
         }
         yield put(loginSuccess(user));
 
@@ -53,8 +53,6 @@ function* loginSaga(action: ReturnType<typeof loginRequest>): Generator<any, voi
         console.error("Login error:", error?.response?.data || error);
         yield put(loginFailure(String(message)));
     }
-
-
 
 }
 

@@ -44,52 +44,45 @@ function Signup() {
             transition={{ duration: 0.6 }}
         >
         <h2 className="text-3xl font-bold text-center text-yellow-400 mb-6">
-🔐          Signup page 
+            🔐 Signup page 
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
             type="text"
-placeholder="Full Name"
-className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
-value={name}
-onChange={(e)=>setName(e.target.value)}
-required
-/>
-
-
-<input
-type="email"
-placeholder="Email Address"
-className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
-value={email}
-onChange={(e) => setEmail(e.target.value)}
-required
-/>
-
-
-<input
-type="password"
-placeholder="Password"
-className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
-value={password}
-onChange={(e) => setPassword(e.target.value)}
-required
-/>
-
-
-<button
-type="submit"
-disabled={loading}
-className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 rounded-xl transition-all duration-300 disabled:opacity-60"
->
-{loading ? 'Signing up...' : 'Sign Up'}
-</button>
-{error && (
-    <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
-)}
-</form>
-
+            placeholder="Full Name"
+            className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
+            required
+        />
+        <input
+            type="email"
+            placeholder="Email Address"
+            className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+        />
+        <input
+            type="password"
+            placeholder="Password"
+            className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+        />
+        <button
+            type="submit"
+            disabled={loading}
+            className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 rounded-xl transition-all duration-300 disabled:opacity-60"
+        >
+        {loading ? 'Signing up...' : 'Sign Up'}
+        </button>
+        {error && (
+            <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
+        )}
+        </form>
         </motion.div>
     </div>
   )

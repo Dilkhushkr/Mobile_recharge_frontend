@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        🚗 Car Rental Dashboard
+        🚗 New car  Rental Dashboard
       </motion.h1>
       
       
